@@ -23,22 +23,39 @@ sürüme göre çeker. Eski projelerde de bu yüzden çalışır.
 
 ## Kurulum
 
-Makinede bir kez:
+### Yeni bir makinede (bir kez)
+
+```bash
+git clone https://github.com/<kullanıcı>/claude-skills.git
+cd claude-skills
+# bootstrap içindeki MARKETPLACE_REPO satırını kendi kullanıcı adınla doldur
+
+powershell -ExecutionPolicy Bypass -File bootstrap.ps1   # Windows
+bash bootstrap.sh                                        # macOS / Linux
+```
+
+Bootstrap şunları yapar: bu marketplace'i ekler, birlikte kullanılan 12 resmi
+plugin'i kurar, `typescript-lsp`'in beklediği `typescript-language-server`'ı
+global kurar.
+
+Elle yapmak istersen tek gereken satır:
 
 ```bash
 claude plugin marketplace add <kullanıcı>/claude-skills
 ```
 
-Her projede bir kez:
+### Yeni bir projede (bir kez)
 
 ```bash
 cd projem
-claude plugin install yap-web@claude-skills --scope project    # ya da yap-mobile
+claude plugin install yap-web@claude-skills --scope project        # ya da yap-mobile
+claude plugin marketplace add <kullanıcı>/claude-skills --scope project
 ```
 
-`--scope project` ayarı projenin `.claude/settings.json` dosyasına yazılır, yani
-repo'yu klonlayan herkes aynı kuruluma sahip olur. Bir projede iki plugin'den
-sadece biri kurulu olduğu için `/yap` tek anlama gelir.
+Bu iki komut projenin `.claude/settings.json` dosyasına yazılır:
+`enabledPlugins` ve `extraKnownMarketplaces`. **İkisini de commit'lersen** o
+projeyi klonlayan her makine (ve her ekip arkadaşın) kurulumu hazır bulur —
+tek başına `enabledPlugins` yetmez, marketplace'in de bilinmesi gerekir.
 
 Sonra oturumda:
 
@@ -46,6 +63,20 @@ Sonra oturumda:
 /yap-init          # projeyi tarar, .claude/yap.md üretir — bir kez
 /yap <görev>       # bundan sonrası hep bu
 ```
+
+`.claude/yap.md` de projeye commit'lenir; asıl proje bilgisi orada durur.
+
+Bir projede iki plugin'den sadece biri kurulu olduğu için `/yap` tek anlama gelir.
+
+### Neyin nerede durduğu
+
+| Ne | Nerede | Yeni makinede |
+|---|---|---|
+| Plugin içerikleri | bu repo | `marketplace add` ile gelir |
+| 12 resmi plugin | makine (user scope) | `bootstrap` ile kurulur |
+| `typescript-language-server` | makine (global npm) | `bootstrap` ile kurulur |
+| Hangi plugin hangi projede | proje `.claude/settings.json` | commit'liysen klonla gelir |
+| Projeye özel bilgi | proje `.claude/yap.md` | commit'liysen klonla gelir |
 
 ## Güncelleme
 
