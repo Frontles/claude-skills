@@ -1,0 +1,27 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "claude-skills",
+  "description": "Kişisel Claude Code eklentileri — web ve mobil projeler için /yap görev orchestrator'ı",
+  "owner": {
+    "name": "canna",
+    "email": "cannas.1905@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "yap-web",
+      "description": "Next.js + React + TypeScript web projeleri için /yap görev orchestrator'ı. Görevi sınıflandırır, sürümü tespit eder, katman sırasıyla uygular ve doğrular. Ayrı Express + Prisma backend'i olan projeleri de kapsar.",
+      "version": "0.1.0",
+      "author": { "name": "canna" },
+      "source": "./plugins/yap-web",
+      "category": "development"
+    },
+    {
+      "name": "yap-mobile",
+      "description": "Expo + React Native mobil projeleri için /yap görev orchestrator'ı. Görevi sınıflandırır, Expo SDK sürümünü tespit eder, katman sırasıyla uygular ve doğrular.",
+      "version": "0.1.0",
+      "author": { "name": "canna" },
+      "source": "./plugins/yap-mobile",
+      "category": "development"
+    }
+  ]
+}

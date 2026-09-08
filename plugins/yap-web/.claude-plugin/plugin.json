@@ -1,0 +1,6 @@
+{
+  "name": "yap-web",
+  "description": "Next.js + React + TypeScript web projeleri için /yap görev orchestrator'ı",
+  "version": "0.1.0",
+  "author": { "name": "canna" }
+}

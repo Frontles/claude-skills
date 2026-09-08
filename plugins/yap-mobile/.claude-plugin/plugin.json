@@ -1,0 +1,6 @@
+{
+  "name": "yap-mobile",
+  "description": "Expo + React Native mobil projeleri için /yap görev orchestrator'ı",
+  "version": "0.1.0",
+  "author": { "name": "canna" }
+}
