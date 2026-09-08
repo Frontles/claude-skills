@@ -2,21 +2,26 @@
 # Yeni bir macOS/Linux makinesini hazırlar.
 #   bash bootstrap.sh
 #
-# Kurulanlar makine geneli (user scope). Proje bazlı kurulum için README'ye bak.
+# Marketplace adresini bu klonun kendi origin'inden okur — elle doldurman
+# gereken bir yer yok. Kurulanlar makine geneli (user scope).
 
 set -euo pipefail
-
-# GitHub kullanıcı adın — kendi repo'nu push ettikten sonra burayı doldur.
-MARKETPLACE_REPO="KULLANICI/claude-skills"
+cd "$(dirname "${BASH_SOURCE[0]}")"
 
 echo
 echo "== 1/3  Marketplace'ler =="
 claude plugin marketplace add anthropics/claude-plugins-official >/dev/null 2>&1 || true
 
-if [[ "$MARKETPLACE_REPO" == KULLANICI/* ]]; then
-  echo "  ! bootstrap.sh icindeki MARKETPLACE_REPO doldurulmamis - kendi marketplace'in atlandi"
+# Kendi marketplace'imiz: origin URL'inden kullanıcı/repo çıkar.
+origin="$(git remote get-url origin 2>/dev/null || true)"
+if [[ "$origin" =~ github\.com[:/]([^/]+)/([^/.]+) ]]; then
+  repo="${BASH_REMATCH[1]}/${BASH_REMATCH[2]}"
+  echo "  -> $repo"
+  claude plugin marketplace add "$repo"
 else
-  claude plugin marketplace add "$MARKETPLACE_REPO"
+  echo "  ! origin bir GitHub adresi degil, yerel klasor olarak ekleniyor"
+  repo='<kullanici>/claude-skills'
+  claude plugin marketplace add "$PWD"
 fi
 
 echo
@@ -51,9 +56,11 @@ fi
 
 echo
 echo "Bitti."
+echo
 echo "Her projede bir kez:"
 echo "  claude plugin install yap-web@claude-skills --scope project    # mobilse yap-mobile"
-echo "  claude plugin marketplace add $MARKETPLACE_REPO --scope project"
+echo "  claude plugin marketplace add $repo --scope project"
 echo "  ...sonra oturumda:  /yap-init"
+echo
 echo "Bu ikisi projenin .claude/settings.json dosyasina yazilir; commit'lersen"
 echo "bir sonraki makinede tekrar calistirman gerekmez."

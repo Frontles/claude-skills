@@ -1,22 +1,27 @@
 # Yeni bir Windows makinesini hazırlar.
 #   powershell -ExecutionPolicy Bypass -File bootstrap.ps1
 #
-# Kurulanlar makine geneli (user scope). Proje bazlı kurulum için README'ye bak.
+# Marketplace adresini bu klonun kendi origin'inden okur — elle doldurman
+# gereken bir yer yok. Kurulanlar makine geneli (user scope).
 
 $ErrorActionPreference = 'Stop'
-
-# GitHub kullanıcı adın — kendi repo'nu push ettikten sonra burayı doldur.
-$MarketplaceRepo = 'KULLANICI/claude-skills'
+Set-Location $PSScriptRoot
 
 Write-Host "`n== 1/3  Marketplace'ler ==" -ForegroundColor Cyan
 
 # Resmi marketplace çoğu kurulumda hazır gelir; yoksa ekler.
 claude plugin marketplace add anthropics/claude-plugins-official 2>&1 | Out-Null
 
-if ($MarketplaceRepo -like 'KULLANICI/*') {
-  Write-Host "  ! bootstrap.ps1 icindeki `$MarketplaceRepo doldurulmamis - kendi marketplace'in atlandi" -ForegroundColor Yellow
+# Kendi marketplace'imiz: origin URL'inden kullanıcı/repo çıkar.
+$origin = git remote get-url origin 2>$null
+if ($origin -match 'github\.com[:/]([^/]+)/([^/.]+)') {
+  $repo = "$($Matches[1])/$($Matches[2])"
+  Write-Host "  -> $repo"
+  claude plugin marketplace add $repo
 } else {
-  claude plugin marketplace add $MarketplaceRepo
+  Write-Host "  ! origin bir GitHub adresi degil, yerel klasor olarak ekleniyor" -ForegroundColor Yellow
+  $repo = '<kullanici>/claude-skills'
+  claude plugin marketplace add $PSScriptRoot
 }
 
 Write-Host "`n== 2/3  Resmi plugin'ler ==" -ForegroundColor Cyan
@@ -54,9 +59,9 @@ if (Get-Command typescript-language-server -ErrorAction SilentlyContinue) {
 }
 
 Write-Host "`nBitti." -ForegroundColor Green
-Write-Host "Her projede bir kez:" -ForegroundColor Green
+Write-Host "`nHer projede bir kez:" -ForegroundColor Green
 Write-Host "  claude plugin install yap-web@claude-skills --scope project    # mobilse yap-mobile"
-Write-Host "  claude plugin marketplace add $MarketplaceRepo --scope project"
+Write-Host "  claude plugin marketplace add $repo --scope project"
 Write-Host "  ...sonra oturumda:  /yap-init"
-Write-Host "Bu ikisi projenin .claude/settings.json dosyasina yazilir; commit'lersen"
+Write-Host "`nBu ikisi projenin .claude/settings.json dosyasina yazilir; commit'lersen"
 Write-Host "bir sonraki makinede tekrar calistirman gerekmez."
