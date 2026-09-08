@@ -1,4 +1,4 @@
-# Yeni bir Windows makinesini hazırlar.
+﻿# Yeni bir Windows makinesini hazırlar.
 #   powershell -ExecutionPolicy Bypass -File bootstrap.ps1
 #
 # Marketplace adresini bu klonun kendi origin'inden okur — elle doldurman

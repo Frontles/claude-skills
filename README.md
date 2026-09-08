@@ -69,7 +69,7 @@ başına. Bu yüzden proje bilgisi plugin'e gömülmez.
 ### 1. Yeni bir makinede (bir kez)
 
 ```bash
-git clone https://github.com/<kullanıcı>/claude-skills.git
+git clone https://github.com/Frontles/claude-skills.git
 cd claude-skills
 
 powershell -ExecutionPolicy Bypass -File bootstrap.ps1   # Windows
@@ -86,7 +86,7 @@ gereken yer yok. Yaptıkları:
 Elle yapmak istersen tek gereken satır:
 
 ```bash
-claude plugin marketplace add <kullanıcı>/claude-skills
+claude plugin marketplace add Frontles/claude-skills
 ```
 
 ### 2. Yeni bir projede (bir kez)
@@ -94,7 +94,7 @@ claude plugin marketplace add <kullanıcı>/claude-skills
 ```bash
 cd projem
 claude plugin install yap-web@claude-skills --scope project        # mobilse yap-mobile
-claude plugin marketplace add <kullanıcı>/claude-skills --scope project
+claude plugin marketplace add Frontles/claude-skills --scope project
 ```
 
 Sonra Claude Code oturumunda:
