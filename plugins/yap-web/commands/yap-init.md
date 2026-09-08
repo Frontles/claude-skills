@@ -85,7 +85,17 @@ Kurallar:
 ## 4. Doğrula ve bitir
 
 - `.claude/yap.md` yazıldıktan sonra **doğrulama komutlarını bir kez çalıştır**
-  ki dosyaya yazdığın komutlar gerçekten çalışıyor olsun. Çalışmıyorsa düzelt.
+  ki dosyaya yazdığın komutlar gerçekten çalışıyor olsun.
+- **Komut patlarsa önce sebebini ayır.** `node_modules` kurulu değilse
+  (`'x' is not recognized`, `Cannot find module`) bu bir proje hatası değildir —
+  bağımlılık eksikliğidir. Kurulumu kendiliğinden yapma; dosyaya
+  "doğrulanamadı, önce `npm ci` gerekiyor" notunu düş ve kullanıcıya söyle.
+  Script gerçekten yanlışsa (yanlış ad, yanlış bayrak) **düzelt**.
+- **Watch modunda takılan script'leri işaretle.** `test` çoğu projede izleme
+  modudur ve oturumu kilitler; tek seferlik karşılığını (`test:run`, `vitest run`)
+  bul ve değişmezlere yaz.
+- Script adlarını **varsayma**: `typecheck` / `type-check` / `tsc` projeden
+  projeye değişiyor. `package.json`'da ne yazıyorsa o.
 - Kullanıcıya özetle: hangi yapı bulundu, hangi bölümler dolduruldu, hangileri
   boş kaldı ve neden.
 - Şunu hatırlat: bundan sonra bu projede sadece `/yap <görev>` yazması yeterli.

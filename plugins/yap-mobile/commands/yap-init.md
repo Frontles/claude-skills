@@ -85,6 +85,13 @@ Kurallar:
 
 - Dosyaya yazdığın komutları **bir kez çalıştır** ki gerçekten çalışıyor olsunlar.
   Cihaz gerektirenleri çalıştıramazsın — onları "cihazda denenecek" diye işaretle.
+- **Komut patlarsa önce sebebini ayır.** `node_modules` kurulu değilse
+  (`'x' is not recognized`, `Cannot find module`) bu bir proje hatası değildir.
+  Kurulumu kendiliğinden yapma; "doğrulanamadı, önce kurulum gerekiyor" notunu
+  düş ve kullanıcıya söyle. Script gerçekten yanlışsa düzelt.
+- **Watch modunda takılan script'leri işaretle** (`test` çoğu projede izleme
+  modudur); tek seferlik karşılığını bul ve değişmezlere yaz.
+- Script adlarını **varsayma**: `typecheck` / `type-check` projeden projeye değişir.
 - Kullanıcıya özetle: hangi yapı bulundu, hangi bölümler dolduruldu, hangileri
   boş kaldı ve neden.
 - Şunu hatırlat: bundan sonra bu projede sadece `/yap <görev>` yazması yeterli.
